@@ -1,0 +1,64 @@
+# Site settings
+title: What The Cats
+description: What The Cats
+baseurl: "" # Leave empty if hosting at root
+url: "whatthecats.de" # Your domain name
+
+# Theme settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Navigation
+header_pages:
+  - about.md
+  - rules.md
+  - staff.md
+  - vote.md
+
+# Custom settings
+server_ip: play.example.com
+discord_invite: https://discord.gg/example
+store_url: https://store.example.com
+
+# Social media
+social:
+  discord: YourDiscordServer
+  twitter: YourTwitterHandle
+  youtube: YourYouTubeChannel
+
+# Build settings
+markdown: kramdown
+permalink: /:title/
+
+# Collections
+collections:
+  announcements:
+    output: true
+    permalink: /news/:title/
+  staff:
+    output: true
+    permalink: /staff/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+  - scope:
+      path: ""
+      type: "announcements"
+    values:
+      layout: announcement
+  - scope:
+      path: ""
+      type: "staff"
+    values:
+      layout: staff-member
