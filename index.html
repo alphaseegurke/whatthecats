@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Server Steuerung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e1e;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #startButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #startButton:hover {
+            background-color: #45a049;
+        }
+        #stopButton {
+            background-color: #f44336;
+            color: white;
+        }
+        #stopButton:hover {
+            background-color: #e53935;
+        }
+        #status {
+            margin-top: 30px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Server Steuerung</h1>
+    <p>Steuere deinen Minecraft-Server mit einem Klick!</p>
+    <button id="startButton">Server Starten</button>
+    <button id="stopButton">Server Stoppen</button>
+    <div id="status">Status: Offline</div>
+
+    <script>
+        // Platzhalter: Diese Funktionen können später mit einem Backend verbunden werden.
+        const statusElement = document.getElementById('status');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        startButton.addEventListener('click', () => {
+            statusElement.textContent = "Status: Online";
+            statusElement.style.color = "#4CAF50";
+            alert("Der Server wurde gestartet!");
+            // Hier könntest du eine Anfrage an deinen Server senden, um ihn zu starten.
+        });
+
+        stopButton.addEventListener('click', () => {
+            statusElement.textContent = "Status: Offline";
+            statusElement.style.color = "#f44336";
+            alert("Der Server wurde gestoppt!");
+            // Hier könntest du eine Anfrage an deinen Server senden, um ihn zu stoppen.
+        });
+    </script>
+</body>
+</html>
