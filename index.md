@@ -1,9 +1,3 @@
----
-layout: default
-title: Minecraft Server Control
----
-
-<!DOCTYPE html>
 <html lang="en">a
 <head>
     <meta charset="UTF-8">
