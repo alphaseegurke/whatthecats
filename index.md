@@ -11,18 +11,20 @@ title: Minecraft Server Control
     <title>{{ page.title }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Allgemeine Stile */
+        /* General Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Poppins', sans-serif;
             color: #fff;
             background: #0d0d0d;
-            overflow: hidden;
+            overflow-x: hidden;
         }
+
         h1 {
             font-size: 3rem;
             text-align: center;
@@ -30,17 +32,20 @@ title: Minecraft Server Control
             color: #FFD700;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
+
         p {
             text-align: center;
             margin: 20px 0;
             font-size: 1.2rem;
             color: #bbb;
         }
+
         /* Buttons */
         .button-container {
             text-align: center;
             margin-top: 50px;
         }
+
         button {
             font-size: 1.3rem;
             padding: 15px 40px;
@@ -51,29 +56,37 @@ title: Minecraft Server Control
             transition: all 0.3s ease-in-out;
             color: white;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            outline: none;
         }
+
         #startButton {
             background: linear-gradient(135deg, #4CAF50, #2E7D32);
         }
+
         #startButton:hover {
             background: linear-gradient(135deg, #66BB6A, #388E3C);
             transform: scale(1.1);
         }
+
         #stopButton {
             background: linear-gradient(135deg, #F44336, #D32F2F);
         }
+
         #stopButton:hover {
             background: linear-gradient(135deg, #E57373, #C62828);
             transform: scale(1.1);
         }
-        /* Statusanzeige */
+
+        /* Status Display */
         #status {
             text-align: center;
             margin-top: 30px;
             font-size: 1.5rem;
             color: #FFD700;
+            transition: color 0.3s ease;
         }
-        /* Hintergrund-Animation */
+
+        /* Background Animation */
         .background {
             position: fixed;
             top: 0;
@@ -84,13 +97,16 @@ title: Minecraft Server Control
             background: radial-gradient(circle, #1a1a1a, #0d0d0d);
             overflow: hidden;
         }
+
         .circle {
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
             animation: float 8s infinite ease-in-out;
             mix-blend-mode: screen;
+            pointer-events: none;
         }
+
         @keyframes float {
             0% {
                 transform: translateY(0) scale(1);
@@ -102,7 +118,8 @@ title: Minecraft Server Control
                 transform: translateY(0) scale(1);
             }
         }
-        /* Zufällige Positionen und Größen der Kreise */
+
+        /* Random Circle Positions and Sizes */
         .circle:nth-child(1) {
             width: 120px;
             height: 120px;
@@ -110,6 +127,7 @@ title: Minecraft Server Control
             left: 15%;
             animation-duration: 9s;
         }
+
         .circle:nth-child(2) {
             width: 200px;
             height: 200px;
@@ -117,6 +135,7 @@ title: Minecraft Server Control
             left: 70%;
             animation-duration: 11s;
         }
+
         .circle:nth-child(3) {
             width: 80px;
             height: 80px;
@@ -124,6 +143,7 @@ title: Minecraft Server Control
             left: 35%;
             animation-duration: 13s;
         }
+
         .circle:nth-child(4) {
             width: 150px;
             height: 150px;
@@ -131,6 +151,7 @@ title: Minecraft Server Control
             left: 50%;
             animation-duration: 7s;
         }
+
         .circle:nth-child(5) {
             width: 250px;
             height: 250px;
@@ -148,27 +169,45 @@ title: Minecraft Server Control
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
+
     <h1>Minecraft Server Control</h1>
-    <p>Starte oder stoppe deinen Server mit nur einem Klick.</p>
+    <p>Start or stop your server with just one click.</p>
+
     <div class="button-container">
-        <button id="startButton">Server Starten</button>
-        <button id="stopButton">Server Stoppen</button>
+        <button id="startButton">Start Server</button>
+        <button id="stopButton">Stop Server</button>
     </div>
+
     <div id="status">Status: Offline</div>
+
     <script>
         const statusElement = document.getElementById('status');
         const startButton = document.getElementById('startButton');
         const stopButton = document.getElementById('stopButton');
-        startButton.addEventListener('click', () => {
-            statusElement.textContent = "Status: Online";
-            statusElement.style.color = "#4CAF50";
-            alert("Der Server wurde gestartet!");
-        });
-        stopButton.addEventListener('click', () => {
-            statusElement.textContent = "Status: Offline";
-            statusElement.style.color = "#F44336";
-            alert("Der Server wurde gestoppt!");
-        });
+
+        async function updateServerStatus(action) {
+            try {
+                const response = await fetch(`/api/server/${action}`, {
+                    method: 'POST'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Server action failed');
+                }
+
+                const newStatus = action === 'start' ? 'Online' : 'Offline';
+                const statusColor = action === 'start' ? '#4CAF50' : '#F44336';
+                
+                statusElement.textContent = `Status: ${newStatus}`;
+                statusElement.style.color = statusColor;
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Failed to ${action} the server. Please try again.`);
+            }
+        }
+
+        startButton.addEventListener('click', () => updateServerStatus('start'));
+        stopButton.addEventListener('click', () => updateServerStatus('stop'));
     </script>
 </body>
 </html>
